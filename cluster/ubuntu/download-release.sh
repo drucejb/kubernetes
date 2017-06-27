@@ -71,19 +71,17 @@ fi
 # k8s
 echo "Prepare kubernetes ${KUBE_VERSION} release ..."
 grep -q "^${KUBE_VERSION}\$" binaries/.kubernetes 2>/dev/null || {
-  curl -L https://github.com/kubernetes/kubernetes/releases/download/v${KUBE_VERSION}/kubernetes.tar.gz -o kubernetes.tar.gz
-  tar xzf kubernetes.tar.gz
-  pushd kubernetes/server
+  curl -L https://dl.k8s.io/${KUBE_VERSION}/kubernetes-server-linux-amd64.tar.gz -o kubernetes-server-linux-amd64.tar.gz
   tar xzf kubernetes-server-linux-amd64.tar.gz
-  popd
-  cp kubernetes/server/kubernetes/server/bin/kube-apiserver \
-     kubernetes/server/kubernetes/server/bin/kube-controller-manager \
-     kubernetes/server/kubernetes/server/bin/kube-scheduler binaries/master
-  cp kubernetes/server/kubernetes/server/bin/kubelet \
-     kubernetes/server/kubernetes/server/bin/kube-proxy binaries/minion
-  cp kubernetes/server/kubernetes/server/bin/kubectl binaries/
+  cp kubernetes/server/bin/kube-apiserver \
+     kubernetes/server/bin/kube-controller-manager \
+     kubernetes/server/bin/kube-scheduler binaries/master
+  cp kubernetes/server/bin/kubelet \
+     kubernetes/server/bin/kube-proxy binaries/minion
+  cp kubernetes/server/bin/kubectl binaries/
   echo ${KUBE_VERSION} > binaries/.kubernetes
 }
+
 
 rm -rf flannel* kubernetes* etcd*
 
